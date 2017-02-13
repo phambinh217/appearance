@@ -58,6 +58,28 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // code here...
+		\Module::registerFromJsonFile('appearance', __DIR__ .'/../../module.json');
+        add_action('admin.init', function () {
+            \AdminMenu::register('setting.appearance.menu', [
+                'label'     => 'Menu',
+                'parent'    =>  'setting.appearance',
+                'url'       =>  route('admin.appearance.menu'),
+                'icon'      =>  'icon-list',
+            ]);
+
+            \AdminMenu::register('setting.appearance', [
+                'label'     => 'Cài đặt giao diện',
+                'parent'    =>  'setting',
+                'url'       =>  route('admin.appearance.menu'),
+                'icon'      =>  'icon-grid',
+            ]);
+            
+            \AdminMenu::register('setting.check-version', [
+                'label'     => 'Style guide',
+                'parent'    =>  'setting',
+                'url'       =>  route('admin.appearance.style-guide.index'),
+                'icon'      =>  'icon-drop',
+            ]);
+        });
     }
 }
