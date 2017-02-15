@@ -351,7 +351,7 @@
 		var appMenu = new Vue({
 			el: '#app-menu',
 			data: {
-				menu: {!! $menu->toJson() !!},
+				menu: {!! ! $menus->isEmpty() ? $menu->toJson() : "[]" !!},
 				item: [],
 				menu_id: {!! $menu_id !!},
 				all_menu: {!! ! $menus->isEmpty() ? $menus->toJson() : "[]" !!},
