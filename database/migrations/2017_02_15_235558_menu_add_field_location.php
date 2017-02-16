@@ -13,7 +13,9 @@ class MenuAddFieldLocation extends Migration
      */
     public function up()
     {
-        //
+        Schema::table('menus', function ($table) {
+            $table->string('location', 100)->nullable();
+        });
     }
 
     /**
@@ -23,6 +25,8 @@ class MenuAddFieldLocation extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('menus', function ($table) {
+            $table->dropColum('location');
+        });
     }
 }
