@@ -30,8 +30,50 @@ class MenuController extends AdminController
         return view('Appearance::admin.menu.edit', $this->data);
     }
 
-    public function menuUpdate()
+    public function menuUpdate(Request $request, $id)
     {
+        $this->validate($request, [
+            'menu.name' => 'required',
+            'menu.slug' => '',
+            'menu.location' => '',
+        ]);
+
+        $menu = Menu::find($id);
+        $menu->fill($request->input('menu'));
+
+        if (!empty($menu->slug)) {
+            $menu->slug = str_slug($menu->name);
+        }
+        
+        $menu->save();
+
+        if ($request->ajax()) {
+            return response()->json([
+                'title' => 'Thành công',
+                'message' => 'Đã lưu menu',
+            ]);
+        }
+
+        return redirect()->back();
+    }
+
+    public function menuUpdateStruct(Request $request, $id)
+    {
+        $this->validate($request, [
+            'menu.struct' => 'required',
+        ]);
+        
+        $menu = Menu::find($id);
+        $menu->updateStruct(json_decode($request->input('menu.struct'), true));
+
+        if ($request->ajax()) {
+            return response()->json([
+                'title' => 'Thành công',
+                'message' => 'Đã lưu cấu trúc mới',
+            ]);
+        }
+
+        return redirect()->back();
     }
 
     public function menuStore(Request $request)
@@ -107,25 +149,6 @@ class MenuController extends AdminController
         return redirect()->back();
     }
 
-    public function menuUpdateStruct(Request $request, $id)
-    {
-        $this->validate($request, [
-            'struct' => 'required',
-        ]);
-        
-        $menu = Menu::find($id);
-        $menu->updateStruct(json_decode($request->input('struct'), true));
-
-        if ($request->ajax()) {
-            return response()->json([
-                'title' => 'Thành công',
-                'message' => 'Đã lưu cấu trúc mới',
-            ]);
-        }
-
-        return redirect()->back();
-    }
-
     public function menuItemUpdate(Request $request, $id)
     {
         $this->validate($request, [
@@ -157,8 +180,23 @@ class MenuController extends AdminController
             return response()->json([
                 'title' => 'Thành công',
                 'message' => 'Đã xóa menu',
+                'redirect' => route('admin.appearance.menu.edit', ['id' => $menu_item->menu_id])
             ]);
         }
+
+        return redirect()->back();
+    }
+
+    public function menuDestroy(Request $request, $id)
+    {
+        $menu = Menu::findOrFail($id);
+        $menu->items()->delete();
+        $menu->delete();
+
+        return response()->json([
+            'title' => 'Thành công',
+            'message' => 'Đã xóa menu',
+        ]);
 
         return redirect()->back();
     }

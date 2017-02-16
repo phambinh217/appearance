@@ -28,7 +28,7 @@
 					{{ csrf_field() }}
 					<div class="form-body">
 						<div class="form-group">
-							<label class="control-lalel col-sm-3 pull-left">
+							<label class="control-label col-sm-3 pull-left">
 								Tên menu
 							</label>
 							<div class="col-sm-9">
@@ -36,7 +36,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-lalel col-sm-3 pull-left">
+							<label class="control-label col-sm-3 pull-left">
 								Slug
 							</label>
 							<div class="col-sm-9">
@@ -58,56 +58,58 @@
 		</div>
 	</div>
 	<div class="col-sm-8">
-		<div class="table-responsive main">
-			<table class="master-table table table-striped table-hover table-checkable order-column pb-items">
-				<thead>
-					<tr>
-						<th width="50" class="table-checkbox text-center">
-							<div class="checker">
-								<input type="checkbox" class="icheck check-all">
-							</div>
-						</th>
-						<th class="text-center">ID</th>
-						<th>Tên menu</th>
-						<th class="hidden-xs">Vị trí</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					@foreach($menus as $menu_item)
-					<tr>
-						<td width="50" class="table-checkbox text-center">
-							<div class="checker">
-								<input type="checkbox" class="icheck" value="{{ $menu_item->id }}">
-							</div>
-						</td>
-						<td class="text-center"><strong>{{ $menu_item->id }}</strong></td>
-						<td>
-							<a href="{{ route('admin.appearance.menu.edit', ['id' => $menu_item->id]) }}"><strong>{{ $menu_item->name }}</strong></a>
-						</td>
-						<td class="hidden-xs">{{ $menu_item->location('name') }}</td>
-						<td>
-							<div class="btn-group pull-right" table-function>
-								<a href="" class="btn btn-circle btn-xs grey-salsa btn-sm dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-									<span class="hidden-xs">
-										Chức năng
-										<span class="fa fa-angle-down"> </span>
-									</span>
-									<span class="visible-xs">
-										<span class="fa fa-cog"> </span>
-									</span>
-								</a>
-								<ul class="dropdown-menu pull-right">
-									<li><a href="{{ route('admin.appearance.menu.edit', ['id' => $menu_item->id]) }}"><i class="fa fa-pencil"></i> Sửa</a></li>
-									<li class="divider"></li>
-									<li><a data-function="destroy" data-method="delete" href=""><i class="fa fa-times"></i> Xóa</a></li>
-								</ul>
-							</div>
-						</td>
-					</tr>
-					@endforeach
-				</tbody>
-			</table>
+		<div class="table-function-container">
+			<div class="table-responsive main">
+				<table class="master-table table table-striped table-hover table-checkable order-column pb-items">
+					<thead>
+						<tr>
+							<th width="50" class="table-checkbox text-center">
+								<div class="checker">
+									<input type="checkbox" class="icheck check-all">
+								</div>
+							</th>
+							<th class="text-center">ID</th>
+							<th>Tên menu</th>
+							<th class="hidden-xs">Vị trí</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach($menus as $menu_item)
+						<tr>
+							<td width="50" class="table-checkbox text-center">
+								<div class="checker">
+									<input type="checkbox" class="icheck" value="{{ $menu_item->id }}">
+								</div>
+							</td>
+							<td class="text-center"><strong>{{ $menu_item->id }}</strong></td>
+							<td>
+								<a href="{{ route('admin.appearance.menu.edit', ['id' => $menu_item->id]) }}"><strong>{{ $menu_item->name }}</strong></a>
+							</td>
+							<td class="hidden-xs">{{ $menu_item->location('name') }}</td>
+							<td>
+								<div class="btn-group pull-right" table-function>
+									<a href="" class="btn btn-circle btn-xs grey-salsa btn-sm dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+										<span class="hidden-xs">
+											Chức năng
+											<span class="fa fa-angle-down"> </span>
+										</span>
+										<span class="visible-xs">
+											<span class="fa fa-cog"> </span>
+										</span>
+									</a>
+									<ul class="dropdown-menu pull-right">
+										<li><a href="{{ route('admin.appearance.menu.edit', ['id' => $menu_item->id]) }}"><i class="fa fa-pencil"></i> Sửa</a></li>
+										<li class="divider"></li>
+										<li><a data-function="destroy" data-method="delete" href="{{ route('admin.appearance.menu.destroy', ['id' => $menu_item->id]) }}"><i class="fa fa-times"></i> Xóa</a></li>
+									</ul>
+								</div>
+							</td>
+						</tr>
+						@endforeach
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 </div>

@@ -62,14 +62,19 @@ class Menu extends Model implements Query
         $query->baseQuery($args);
     }
 
-    public function scopeUpdateStruct($query, $menu_items, $parent_id = '0')
+    public function scopeUpdateStruct($query, $menu_items, $parent_id = '0', $order = '0')
     {
         foreach ($menu_items as $menu_item) {
             if (isset($menu_item['children'])) {
                 $query->updateStruct($menu_item['children'], $menu_item['id']);
             }
-        }
 
-        $this->items()->whereIn('id', array_pluck($menu_items, 'id'))->update(['parent_id' => $parent_id]);
+            $this->items()->where('id', $menu_item['id'])->update([
+                'parent_id' => $parent_id,
+                'order'     => $order,
+            ]);
+
+            $order++;
+        }
     }
 }

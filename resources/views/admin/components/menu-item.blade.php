@@ -9,7 +9,7 @@
 			<div class="dd3-content hover-display-container" data-parent="#menu-structor" data-toggle="collapse" data-target="#menu-item-{{ $item->id }}">
 				{{ $item->title }}
 				<span class="hover-display pl-15 hidden-xs pull-right">
-					<a href="">Xóa</a>
+					<a class="delete-menu-item" href="{{ route('admin.appearance.menu-item.destroy', ['id' => $item->id]) }}">Xóa</a>
 				</span>
 			</div>
 			<div id="menu-item-{{ $item->id }}" class="collapse">
