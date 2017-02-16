@@ -17,6 +17,7 @@ class Menu extends Model implements Query
     protected $fillable = [
         'name',
         'slug',
+        'location',
     ];
 
      /**
@@ -25,7 +26,11 @@ class Menu extends Model implements Query
      * @var array
      */
     protected static $requestFilter = [
-        
+        'id' => 'integer',
+        'name' => '',
+        'slug' => '',
+        'location' => '',
+        'orderby' => '',
     ];
 
     /**
@@ -40,6 +45,16 @@ class Menu extends Model implements Query
     public function items()
     {
         return $this->hasMany('Phambinh\Appearance\Models\MenuItem');
+    }
+
+    public function location($key = null)
+    {
+        $location = \Menu::locationWhere('id', $this->location)->first();
+        if (!empty($key)) {
+            $location = $location[$key];
+        }
+
+        return $location;
     }
 
     public function scopeOfQuery($query, $args = [])

@@ -58,20 +58,25 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public function register()
     {
-		\Module::registerFromJsonFile('appearance', __DIR__ .'/../../module.json');
-        add_action('admin.init', function () {
-            \AdminMenu::register('setting.appearance.menu', [
-                'label'     => 'Menu',
-                'parent'    =>  'setting.appearance',
-                'url'       =>  route('admin.appearance.menu'),
-                'icon'      =>  'icon-list',
-            ]);
+        \Module::registerFromJsonFile('appearance', __DIR__ .'/../../module.json');
+        
+        \Menu::registerLocation([
+            'id' => 'master-menu',
+            'name' => 'Master menu',
+        ]);
 
+        add_action('admin.init', function () {
             \AdminMenu::register('setting.appearance', [
                 'label'     => 'Cài đặt giao diện',
                 'parent'    =>  'setting',
-                'url'       =>  route('admin.appearance.menu'),
+                'url'       =>  route('admin.appearance.menu.index'),
                 'icon'      =>  'icon-grid',
+            ]);
+            \AdminMenu::register('setting.appearance.menu', [
+                'label'     => 'Menu',
+                'parent'    =>  'setting.appearance',
+                'url'       =>  route('admin.appearance.menu.index'),
+                'icon'      =>  'icon-list',
             ]);
             
             \AdminMenu::register('setting.check-version', [

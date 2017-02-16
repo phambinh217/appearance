@@ -10,7 +10,9 @@
  */
 
 Route::group(['module' => 'appearance', 'namespace' => 'Phambinh\Appearance\Http\Controllers\Admin', 'middleware' => ['web'], 'prefix' => 'admin/appearance'], function () {
-    Route::get('menu', 'MenuController@menu')->name('admin.appearance.menu');
+    Route::get('menu', 'MenuController@index')->name('admin.appearance.menu.index');
+    Route::get('menu/{id}', 'MenuController@menuEdit')->name('admin.appearance.menu.edit');
+
     Route::post('menu', 'MenuController@menuStore')->name('admin.appearance.menu.store');
     Route::post('menu/{id}', 'MenuController@menuAdd')->name('admin.appearance.menu.add');
     Route::post('menu/{id}/default', 'MenuController@menuAddByDefault')->name('admin.appearance.menu.add-default');

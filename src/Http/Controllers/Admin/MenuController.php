@@ -12,26 +12,21 @@ class MenuController extends AdminController
 {
     public function index()
     {
+        $menus = Menu::get();
+        $this->data['menus'] = $menus;
+
         \Metatag::set('title', 'Danh sách menu');
         return view('Appearance::admin.menu.index', $this->data);
     }
 
-    public function menu()
+    public function menuEdit($id)
     {
-        $menus = Menu::get();
-        $this->data['menus'] = $menus;
-        $this->data['menu_items'] = MenuItem::select('id', 'title', 'url', 'parent_id', 'menu_id')->get();
-
-        if (request()->exists('menu_id') && ($menu_first = $menus->where('id', request()->get('menu_id'))->first())) {
-            $this->data['menu_id'] = $menu_first->id;
-            $this->data['menu'] = $menu_first;
-        } else {
-            $this->data['menu_id'] = ! $menus->isEmpty() ? $menus->first()->id : -1;
-            $this->data['menu'] = ! $menus->isEmpty() ? $menus->first() : [];
-        }
-
-        \Metatag::set('title', 'Cài đặt menu');
-        return view('Appearance::admin.menu.menu', $this->data);
+        $menu = Menu::findOrFail($id);
+        $this->data['menu'] = $menu;
+        $this->data['menu_id'] = $id;
+        
+        \Metatag::set('title', 'Chỉnh sửa menu');
+        return view('Appearance::admin.menu.edit', $this->data);
     }
 
     public function menuUpdate()
@@ -58,7 +53,7 @@ class MenuController extends AdminController
             return response()->json([
                 'title' => 'Thành công',
                 'message' => 'Đã thêm menu mới',
-                'redirect' => route('admin.appearance.menu', ['menu_id' => $menu->id]),
+                'redirect' => route('admin.appearance.menu.index', ['menu_id' => $menu->id]),
             ]);
         }
 
@@ -83,7 +78,7 @@ class MenuController extends AdminController
             return response()->json([
                 'title' => 'Thành công',
                 'message' => 'Đã thêm vào menu',
-                'redirect' => route('admin.appearance.menu', ['menu_id' => $id]),
+                'redirect' => route('admin.appearance.menu.edit', ['menu_id' => $id]),
             ]);
         }
 
@@ -104,7 +99,7 @@ class MenuController extends AdminController
             return response()->json([
                 'title' => 'Thành công',
                 'message' => 'Đã thêm vào menu',
-                'redirect' => route('admin.appearance.menu', ['menu_id' => $id]),
+                'redirect' => route('admin.appearance.menu.edit', ['menu_id' => $id]),
             ]);
         }
 
