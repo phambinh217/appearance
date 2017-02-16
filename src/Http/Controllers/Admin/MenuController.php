@@ -21,7 +21,8 @@ class MenuController extends AdminController
 
     public function menuEdit($id)
     {
-        $menu = Menu::findOrFail($id);
+        $menu = Menu::with('items')->findOrFail($id);
+        
         $this->data['menu'] = $menu;
         $this->data['menu_id'] = $id;
         

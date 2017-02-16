@@ -94,7 +94,9 @@
 						<div class="dd" id="menu-structor">
 							<div class="dd" id="menu-structor">
 								<ol class="dd-list">
-								
+									@include('Appearance::admin.components.menu-item', [
+										'menu_item' => $menu->items,
+									])
 								</ol>
 							</div>
 						</div>
