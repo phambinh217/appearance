@@ -4,6 +4,16 @@ namespace Phambinh\Appearance\Supports\Traits;
 
 trait NavigationMenu
 {
+    public static function boot()
+    {
+        parent::boot();
+        static::saved(function ($model) {
+            if ($model->inMenuItem()) {
+                $model->syncMenuItem();
+            }
+        });
+    }
+
     public function menuItems()
     {
         return $this->hasMany('Phambinh\Appearance\Models\MenuItem', 'object_id')->where('type', __CLASS__);
@@ -20,5 +30,17 @@ trait NavigationMenu
         ], $params);
 
         return $this->menuItems()->insert($data);
+    }
+
+    public function syncMenuItem()
+    {
+        $menuItems = $this->menuItems()->update([
+            'url' => $this->menuUrl(),
+        ]);
+    }
+
+    public function inMenuItem()
+    {
+        return $this->menuItems()->exists();
     }
 }

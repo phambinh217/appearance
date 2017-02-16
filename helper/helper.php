@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * ModuleAlias: appearance
  * ModuleName: appearance
@@ -7,14 +7,14 @@
  * @version: 1.0
  * @package: PhambinhCMS
  */
-
-if (! function_exists('my_function')) {
-    /**
-     * [my_function description]
-     * @return [type] [description]
-     */
-    function my_function()
+if (!function_exists('menu_items')) {
+    function menu_items($menu_location)
     {
-        // code..
+        $menu = \Phambinh\Appearance\Models\Menu::where('location', $menu_location)->with('items')->first();
+        if ($menu) {
+            return $menu->items->sortBy('order')->values();
+        }
+
+        return collect();
     }
 }
