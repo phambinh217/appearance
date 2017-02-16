@@ -22,11 +22,11 @@
 							<span class="caption-subject bold">{{ $menu_item['name'] }}</span>
 						</div>
 						<div class="tools">
-							<a href="javascript:;" class="collapse"> </a>
+							<a href="javascript:;" class="expand"> </a>
 							<a href="" class="fullscreen"> </a>
 						</div>
 					</div>
-					<div class="portlet-body">
+					<div class="portlet-body" style="display: none;">
 						<form class="form-horizontal ajax-form" method="POST" action="{{ route('admin.appearance.menu.add', ['id' => $menu_id]) }}">
 							<div class="form-body"  style="margin: 15px 0;">
 								<div class="scroller" style="height:200px;" data-rail-visible="1" data-rail-color="yellow" data-handle-color="#a1b2bd">
@@ -92,13 +92,11 @@
 				<div class="portlet-body">
 					<div class="form-body" style="margin-bottom: 15px">
 						<div class="dd" id="menu-structor">
-							<div class="dd" id="menu-structor">
-								<ol class="dd-list">
-									@include('Appearance::admin.components.menu-item', [
-										'menu_item' => $menu->items,
-									])
-								</ol>
-							</div>
+							<ol class="dd-list">
+								@include('Appearance::admin.components.menu-item', [
+									'menu_items' => $menu->items,
+								])
+							</ol>
 						</div>
 					</div>
 				</div>
@@ -108,9 +106,18 @@
 @endsection
 
 @push('css')
-
+	<link href="{{ url('assets/admin/global/plugins/bootstrap-toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />
+	<link href="{{ url('assets/admin/global/plugins/jquery-nestable/jquery.nestable.css')}}" rel="stylesheet" type="text/css" />
 @endpush
 
 @push('js_footer')
-
+	<script type="text/javascript" src="{{ url('assets/admin/global/plugins/jquery-form/jquery.form.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url('assets/admin/global/plugins/bootstrap-toastr/toastr.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url('assets/admin/global/plugins/jquery-nestable/jquery.nestable.js') }}"></script>
+    <script type="text/javascript" src="{{ url('assets/admin/global/plugins/jquery-nestable/jquery.nestable.js') }}"></script>
+    <script type="text/javascript">
+    	$(function(){
+    		$('#menu-structor').nestable();
+    	});
+    </script>
 @endpush
