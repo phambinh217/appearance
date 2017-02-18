@@ -49,6 +49,16 @@ class ModuleServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../../assets' => public_path('assets'),
         ], 'public');
+
+        $this->registerPolicies();
+    }
+
+    public function registerPolicies()
+    {
+        \AccessControl::define('Giao diện - Xem danh sách menu', 'admin.appearance.menu.index');
+        \AccessControl::define('Giao diện - Thêm menu mới', 'admin.appearance.menu.create');
+        \AccessControl::define('Giao diện - Chỉnh sửa menu', 'admin.appearance.menu.edit');
+        \AccessControl::define('Giao diện - Chỉnh sửa menu', 'admin.appearance.menu.edit');
     }
 
     /**

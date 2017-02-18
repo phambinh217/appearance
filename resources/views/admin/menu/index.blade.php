@@ -13,49 +13,51 @@
 @section('content')
 <div class="row">
 	<div class="col-sm-4">
-		<div class="portlet light bordered">
-			<div class="portlet-title">
-				<div class="caption">
-					<span class="caption-subject bold">Thêm menu mới</span>
+		@can('amin.admin.appearance.menu.create')
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption">
+						<span class="caption-subject bold">Thêm menu mới</span>
+					</div>
+					<div class="tools">
+						<a href="javascript:;" class="collapse"> </a>
+						<a href="" class="fullscreen"> </a>
+					</div>
 				</div>
-				<div class="tools">
-					<a href="javascript:;" class="collapse"> </a>
-					<a href="" class="fullscreen"> </a>
-				</div>
-			</div>
-			<div class="portlet-body">
-				<form class="form-horizontal ajax-form" method="POST" action="{{ route('admin.appearance.menu.store') }}">
-					{{ csrf_field() }}
-					<div class="form-body">
-						<div class="form-group">
-							<label class="control-label col-sm-3 pull-left">
-								Tên menu
-							</label>
-							<div class="col-sm-9">
-								<input type="text" name="menu[name]" class="form-control" />
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="control-label col-sm-3 pull-left">
-								Slug
-							</label>
-							<div class="col-sm-9">
-								<input type="text" name="menu[slug]" class="form-control" />
-								<label class="checkbox-inline">
-									<input type="checkbox" value="true" checked="" id="create-slug">
-									Từ tên menu
+				<div class="portlet-body">
+					<form class="form-horizontal ajax-form" method="POST" action="{{ route('admin.appearance.menu.store') }}">
+						{{ csrf_field() }}
+						<div class="form-body">
+							<div class="form-group">
+								<label class="control-label col-sm-3 pull-left">
+									Tên menu
 								</label>
+								<div class="col-sm-9">
+									<input type="text" name="menu[name]" class="form-control" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-3 pull-left">
+									Slug
+								</label>
+								<div class="col-sm-9">
+									<input type="text" name="menu[slug]" class="form-control" />
+									<label class="checkbox-inline">
+										<input type="checkbox" value="true" checked="" id="create-slug">
+										Từ tên menu
+									</label>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="form-actions util-btn-margin-bottom-5">
-						<button class="btn btn-primary full-width-xs">
-							<i class="fa fa-save"></i> Thêm
-						</button>
-					</div>
-				</form>	
+						<div class="form-actions util-btn-margin-bottom-5">
+							<button class="btn btn-primary full-width-xs">
+								<i class="fa fa-save"></i> Thêm
+							</button>
+						</div>
+					</form>	
+				</div>
 			</div>
-		</div>
+		@endcan
 	</div>
 	<div class="col-sm-8">
 		<div class="table-function-container">
@@ -84,7 +86,15 @@
 							</td>
 							<td class="text-center"><strong>{{ $menu_item->id }}</strong></td>
 							<td>
-								<a href="{{ route('admin.appearance.menu.edit', ['id' => $menu_item->id]) }}"><strong>{{ $menu_item->name }}</strong></a>
+								@can('amin.admin.appearance.menu.edit', $menu_item)
+									<a href="{{ route('admin.appearance.menu.edit', ['id' => $menu_item->id]) }}">
+										<strong>{{ $menu_item->name }}</strong>
+									</a>
+								@endcan
+
+								@cannot('amin.admin.appearance.menu.edit', $menu_item)
+									<strong>{{ $menu_item->name }}</strong>
+								@endcannot
 							</td>
 							<td class="hidden-xs">{{ $menu_item->location('name') }}</td>
 							<td>
@@ -99,9 +109,13 @@
 										</span>
 									</a>
 									<ul class="dropdown-menu pull-right">
-										<li><a href="{{ route('admin.appearance.menu.edit', ['id' => $menu_item->id]) }}"><i class="fa fa-pencil"></i> Sửa</a></li>
-										<li class="divider"></li>
-										<li><a data-function="destroy" data-method="delete" href="{{ route('admin.appearance.menu.destroy', ['id' => $menu_item->id]) }}"><i class="fa fa-times"></i> Xóa</a></li>
+										@can('amin.admin.appearance.menu.edit', $menu_item)
+											<li><a href="{{ route('admin.appearance.menu.edit', ['id' => $menu_item->id]) }}"><i class="fa fa-pencil"></i> Sửa</a></li>
+											<li class="divider"></li>
+										@endcan
+										@can('amin.admin.appearance.menu.destroy', $menu_item)
+											<li><a data-function="destroy" data-method="delete" href="{{ route('admin.appearance.menu.destroy', ['id' => $menu_item->id]) }}"><i class="fa fa-times"></i> Xóa</a></li>
+										@endcan
 									</ul>
 								</div>
 							</td>

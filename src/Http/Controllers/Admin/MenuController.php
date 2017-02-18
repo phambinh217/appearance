@@ -10,12 +10,18 @@ use Phambinh\Appearance\Models\MenuItem;
 
 class MenuController extends AdminController
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function index()
     {
         $menus = Menu::get();
         $this->data['menus'] = $menus;
 
         \Metatag::set('title', 'Danh sách menu');
+        $this->authorize('admin.appearance.menu.index');
         return view('Appearance::admin.menu.index', $this->data);
     }
 
@@ -27,6 +33,7 @@ class MenuController extends AdminController
         $this->data['menu_id'] = $id;
         
         \Metatag::set('title', 'Chỉnh sửa menu');
+        $this->authorize('admin.appearance.menu.edit', $menu);
         return view('Appearance::admin.menu.edit', $this->data);
     }
 
@@ -39,6 +46,9 @@ class MenuController extends AdminController
         ]);
 
         $menu = Menu::find($id);
+
+        $this->authorize('admin.appearance.menu.edit', $menu);
+
         $menu->fill($request->input('menu'));
 
         if (!empty($menu->slug)) {
@@ -64,6 +74,9 @@ class MenuController extends AdminController
         ]);
         
         $menu = Menu::find($id);
+        
+        $this->authorize('admin.appearance.menu.edit', $menu);
+
         $menu->updateStruct(json_decode($request->input('menu.struct'), true));
 
         if ($request->ajax()) {
@@ -78,6 +91,7 @@ class MenuController extends AdminController
 
     public function menuStore(Request $request)
     {
+    	$this->checkAuthorize('admin.appearance.menu.create');
         $this->validate($request, [
             'menu.name' => 'required',
             'menu.slug' => '',
@@ -110,6 +124,9 @@ class MenuController extends AdminController
             'type' => 'required',
         ]);
 
+        $menu = Menu::find($id);
+        $this->authorize('admin.appearance.menu.edit', $menu);
+
         $type = $request->input('type');
         $objects = $type::whereIn('id', $request->input('object_id'))->get();
 
@@ -136,6 +153,9 @@ class MenuController extends AdminController
         ]);
 
         $menu = Menu::find($id);
+
+        $this->authorize('admin.appearance.menu.edit', $menu);
+
         $menu->items()->create($request->input('menu_item'));
 
         if ($request->ajax()) {
@@ -157,6 +177,9 @@ class MenuController extends AdminController
         ]);
 
         $menu_item = MenuItem::find($id);
+        
+        $this->authorize('admin.appearance.menu.edit');
+
         $menu_item->fill($request->input('menu_item'))->save();
 
         if ($request->ajax()) {
@@ -172,7 +195,7 @@ class MenuController extends AdminController
     public function menuItemDestroy(Request $request, $id)
     {
         $menu_item = MenuItem::find($id);
-        
+        $this->authorize('admin.appearance.menu.edit');
         MenuItem::where('parent_id', $menu_item->id)->update(['parent_id' => $menu_item->parent_id]);
         $menu_item->delete();
 
@@ -190,6 +213,7 @@ class MenuController extends AdminController
     public function menuDestroy(Request $request, $id)
     {
         $menu = Menu::findOrFail($id);
+        $this->authorize('admin.appearance.menu.edit');
         $menu->items()->delete();
         $menu->delete();
 

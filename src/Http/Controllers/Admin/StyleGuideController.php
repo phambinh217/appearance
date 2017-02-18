@@ -11,6 +11,7 @@ class StyleGuideController extends AdminController
     public function index()
     {
         \Metatag::set('title', 'Style guide');
+        $this->authorize('admin', $menu);
         return view('Appearance::admin.style-guide.index', $this->data);
     }
 }
