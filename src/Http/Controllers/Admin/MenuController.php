@@ -10,44 +10,32 @@ use Phambinh\Appearance\Models\MenuItem;
 
 class MenuController extends AdminController
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function index()
     {
+        \Metatag::set('title', 'Danh sách menu');
+
         $menus = Menu::get();
         $this->data['menus'] = $menus;
 
-        \Metatag::set('title', 'Danh sách menu');
-        $this->authorize('admin.appearance.menu.index');
         return view('Appearance::admin.menu.index', $this->data);
     }
 
-    public function menuEdit($id)
+    public function menuEdit(Menu $menu)
     {
-        $menu = Menu::with('items')->findOrFail($id);
-        
         $this->data['menu'] = $menu;
-        $this->data['menu_id'] = $id;
+        $this->data['menu_id'] = $menu->id;
         
         \Metatag::set('title', 'Chỉnh sửa menu');
-        $this->authorize('admin.appearance.menu.edit', $menu);
         return view('Appearance::admin.menu.edit', $this->data);
     }
 
-    public function menuUpdate(Request $request, $id)
+    public function menuUpdate(Request $request, Menu $menu)
     {
         $this->validate($request, [
             'menu.name' => 'required',
             'menu.slug' => '',
             'menu.location' => '',
         ]);
-
-        $menu = Menu::find($id);
-
-        $this->authorize('admin.appearance.menu.edit', $menu);
 
         $menu->fill($request->input('menu'));
 
@@ -67,16 +55,12 @@ class MenuController extends AdminController
         return redirect()->back();
     }
 
-    public function menuUpdateStruct(Request $request, $id)
+    public function menuUpdateStruct(Request $request, Menu $menu)
     {
         $this->validate($request, [
             'menu.struct' => 'required',
         ]);
         
-        $menu = Menu::find($id);
-        
-        $this->authorize('admin.appearance.menu.edit', $menu);
-
         $menu->updateStruct(json_decode($request->input('menu.struct'), true));
 
         if ($request->ajax()) {
@@ -117,15 +101,12 @@ class MenuController extends AdminController
         return reidrect()->back();
     }
 
-    public function menuAdd(Request $request, $id)
+    public function menuAdd(Request $request, Menu $menu)
     {
         $this->validate($request, [
             'object_id' => 'required',
             'type' => 'required',
         ]);
-
-        $menu = Menu::find($id);
-        $this->authorize('admin.appearance.menu.edit', $menu);
 
         $type = $request->input('type');
         $objects = $type::whereIn('id', $request->input('object_id'))->get();
@@ -145,16 +126,12 @@ class MenuController extends AdminController
         return redirect()->back();
     }
 
-    public function menuAddByDefault(Request $request, $id)
+    public function menuAddByDefault(Request $request, Menu $menu)
     {
         $this->validate($request, [
             'menu_item.title' => 'required',
             'menu_item.url' => '',
         ]);
-
-        $menu = Menu::find($id);
-
-        $this->authorize('admin.appearance.menu.edit', $menu);
 
         $menu->items()->create($request->input('menu_item'));
 
@@ -169,16 +146,25 @@ class MenuController extends AdminController
         return redirect()->back();
     }
 
-    public function menuItemUpdate(Request $request, $id)
+    public function menuDestroy(Request $request, Menu $menu)
+    {
+        $menu->items()->delete();
+        $menu->delete();
+
+        return response()->json([
+            'title' => 'Thành công',
+            'message' => 'Đã xóa menu',
+        ]);
+
+        return redirect()->back();
+    }
+
+    public function menuItemUpdate(Request $request, MenuItem $id)
     {
         $this->validate($request, [
             'menu_item.title' => 'required',
             'menu_item.url' => '',
         ]);
-
-        $menu_item = MenuItem::find($id);
-        
-        $this->authorize('admin.appearance.menu.edit');
 
         $menu_item->fill($request->input('menu_item'))->save();
 
@@ -192,10 +178,8 @@ class MenuController extends AdminController
         return redirect()->back();
     }
 
-    public function menuItemDestroy(Request $request, $id)
+    public function menuItemDestroy(Request $request, MenuItem $menu_item)
     {
-        $menu_item = MenuItem::find($id);
-        $this->authorize('admin.appearance.menu.edit');
         MenuItem::where('parent_id', $menu_item->id)->update(['parent_id' => $menu_item->parent_id]);
         $menu_item->delete();
 
@@ -206,21 +190,6 @@ class MenuController extends AdminController
                 'redirect' => route('admin.appearance.menu.edit', ['id' => $menu_item->menu_id])
             ]);
         }
-
-        return redirect()->back();
-    }
-
-    public function menuDestroy(Request $request, $id)
-    {
-        $menu = Menu::findOrFail($id);
-        $this->authorize('admin.appearance.menu.edit');
-        $menu->items()->delete();
-        $menu->delete();
-
-        return response()->json([
-            'title' => 'Thành công',
-            'message' => 'Đã xóa menu',
-        ]);
 
         return redirect()->back();
     }

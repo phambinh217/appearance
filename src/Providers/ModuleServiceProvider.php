@@ -69,32 +69,41 @@ class ModuleServiceProvider extends ServiceProvider
     public function register()
     {
         \Module::registerFromJsonFile('appearance', __DIR__ .'/../../module.json');
-        
+        $this->app->register(\Phambinh\Appearance\Providers\RoutingServiceProvider::class);
+        $this->registerAdminMenu();
         \Menu::registerLocation([
             'id' => 'master-menu',
             'name' => 'Master menu',
         ]);
+    }
 
+    private function registerAdminMenu()
+    {
         add_action('admin.init', function () {
-            \AdminMenu::register('setting.appearance', [
-                'label'     => 'Cài đặt giao diện',
-                'parent'    =>  'setting',
-                'url'       =>  route('admin.appearance.menu.index'),
-                'icon'      =>  'icon-grid',
-            ]);
-            \AdminMenu::register('setting.appearance.menu', [
-                'label'     => 'Menu',
-                'parent'    =>  'setting.appearance',
-                'url'       =>  route('admin.appearance.menu.index'),
-                'icon'      =>  'icon-list',
-            ]);
-            
-            \AdminMenu::register('setting.check-version', [
-                'label'     => 'Style guide',
-                'parent'    =>  'setting',
-                'url'       =>  route('admin.appearance.style-guide.index'),
-                'icon'      =>  'icon-drop',
-            ]);
+            if (\Auth::user()->can('admin.appearance.menu.index')) {
+                \AdminMenu::register('setting.appearance', [
+                    'label'     => 'Cài đặt giao diện',
+                    'parent'    =>  'setting',
+                    'url'       =>  route('admin.appearance.menu.index'),
+                    'icon'      =>  'icon-grid',
+                ]);
+            }
+            if (\Auth::user()->can('admin.appearance.menu.index')) {
+                \AdminMenu::register('setting.appearance.menu', [
+                    'label'     => 'Menu',
+                    'parent'    =>  'setting.appearance',
+                    'url'       =>  route('admin.appearance.menu.index'),
+                    'icon'      =>  'icon-list',
+                ]);
+            }
+            if (\Auth::user()->can('admin')) {
+                \AdminMenu::register('setting.check-version', [
+                    'label'     => 'Style guide',
+                    'parent'    =>  'setting',
+                    'url'       =>  route('admin.appearance.style-guide.index'),
+                    'icon'      =>  'icon-drop',
+                ]);
+            }
         });
     }
 }
