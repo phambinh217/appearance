@@ -1,6 +1,6 @@
 <?php
 
-namespace Phambinh\Appearance\Models;
+namespace Packages\Appearance;
 
 use Illuminate\Database\Eloquent\Model;
 use Phambinh\Laravel\Database\Traits\Model as PhambinhModel;
@@ -46,7 +46,7 @@ class MenuItem extends Model implements Query
 
     public function menu()
     {
-        return $this->belongTo('Phambinh\Appearance\Models\Menu');
+        return $this->belongTo('Packages\Appearance\Menu');
     }
 
     public function scopeOfQuery($query, $args = [])

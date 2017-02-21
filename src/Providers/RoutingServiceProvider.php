@@ -1,6 +1,6 @@
 <?php 
 
-namespace Phambinh\Appearance\Providers;
+namespace Packages\Appearance\Providers;
 
 use Illuminate\Support\Facades\Route;
 use App\Providers\RouteServiceProvider as ServiceProvider;
@@ -20,8 +20,16 @@ class RoutingServiceProvider extends ServiceProvider
         Route::pattern('menu_item', '[0-9]+');
 
         if (!$this->app->routesAreCached()) {
-            if (\File::exists(__DIR__ . '/../../routes.php')) {
-                include __DIR__ . '/../../routes.php';
+            if (\File::exists(__DIR__ . '/../../routes/web.php')) {
+                include __DIR__ . '/../../routes/web.php';
+            }
+
+            if (\File::exists(__DIR__ . '/../../routes/api.php')) {
+                include __DIR__ . '/../../routes/api.php';
+            }
+
+            if (\File::exists(__DIR__ . '/../../routes/console.php')) {
+                include __DIR__ . '/../../routes/console.php';
             }
         }
     }

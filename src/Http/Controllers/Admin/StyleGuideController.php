@@ -1,6 +1,6 @@
 <?php
 
-namespace Phambinh\Appearance\Http\Controllers\Admin;
+namespace Packages\Appearance\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use AdminController;

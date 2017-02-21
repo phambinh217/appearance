@@ -1,4 +1,4 @@
-@extends('Admin::layouts.default',[
+@extends('Cms::layouts.default',[
 	'active_admin_menu' 	=> ['setting', 'setting.style-guide'],
 	'breadcrumbs' 			=> [
 		'title'	=> ['Cài đặt', 'Style guide'],

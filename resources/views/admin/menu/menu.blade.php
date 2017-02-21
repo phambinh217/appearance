@@ -1,4 +1,4 @@
-@extends('Admin::layouts.default',[
+@extends('Cms::layouts.default',[
 	'active_admin_menu' 	=> ['setting', 'setting.appearance', 'setting.appearance.menu'],
 	'breadcrumbs' 			=> [
 		'title'	=> ['Cài đặt', 'Giao diện', 'Menu'],
