@@ -13,7 +13,7 @@
 @section('content')
 <div class="row">
 	<div class="col-sm-4">
-		@can('amin.admin.appearance.menu.create')
+		@can('admin.appearance.menu.create')
 			<div class="portlet light bordered">
 				<div class="portlet-title">
 					<div class="caption">
@@ -86,13 +86,13 @@
 							</td>
 							<td class="text-center"><strong>{{ $menu_item->id }}</strong></td>
 							<td>
-								@can('amin.admin.appearance.menu.edit', $menu_item)
+								@can('admin.appearance.menu.edit', $menu_item)
 									<a href="{{ route('admin.appearance.menu.edit', ['id' => $menu_item->id]) }}">
 										<strong>{{ $menu_item->name }}</strong>
 									</a>
 								@endcan
 
-								@cannot('amin.admin.appearance.menu.edit', $menu_item)
+								@cannot('admin.appearance.menu.edit', $menu_item)
 									<strong>{{ $menu_item->name }}</strong>
 								@endcannot
 							</td>
@@ -109,11 +109,11 @@
 										</span>
 									</a>
 									<ul class="dropdown-menu pull-right">
-										@can('amin.admin.appearance.menu.edit', $menu_item)
+										@can('admin.appearance.menu.edit', $menu_item)
 											<li><a href="{{ route('admin.appearance.menu.edit', ['id' => $menu_item->id]) }}"><i class="fa fa-pencil"></i> Sửa</a></li>
 											<li class="divider"></li>
 										@endcan
-										@can('amin.admin.appearance.menu.destroy', $menu_item)
+										@can('admin.appearance.menu.destroy', $menu_item)
 											<li><a data-function="destroy" data-method="delete" href="{{ route('admin.appearance.menu.destroy', ['id' => $menu_item->id]) }}"><i class="fa fa-times"></i> Xóa</a></li>
 										@endcan
 									</ul>
