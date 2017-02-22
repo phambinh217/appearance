@@ -1,6 +1,6 @@
 <?php
 
-namespace Packages\Appearance\Support\Traits;
+namespace Phambinh\Appearance\Support\Traits;
 
 trait NavigationMenu
 {
@@ -16,16 +16,16 @@ trait NavigationMenu
 
     public function menuItems()
     {
-        return $this->hasMany('Packages\Appearance\MenuItem', 'object_id')->where('type', __CLASS__);
+        return $this->hasMany('Phambinh\Appearance\MenuItem', 'object_id')->where('type', __CLASS__);
     }
 
     public function scopeAddToMenu($query, $menu_id, $params = [])
     {
         $data = array_merge([
             'type' => __CLASS__,
-            'object_id' => $this->id,
+            'object_id' => method_exists($this, 'menuId') ? $this->menuId() : $this->id,
             'url' => $this->menuUrl(),
-            'title' => $this->menuTitle(),
+            'title' => method_exists($this, 'menuTitle') ? $this->menuTitle() : $this->title,
             'menu_id' => $menu_id,
         ], $params);
 

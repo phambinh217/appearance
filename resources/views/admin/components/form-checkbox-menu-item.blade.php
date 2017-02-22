@@ -13,7 +13,7 @@
                 @php $has_child = $items->where('parent_id', $item_item->id)->first(); @endphp
                 @if($item_item->parent_id == $parent_id)        
                     <label>
-                        {{ str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $level) }}<input type="checkbox" name="{{ $name }}" value="{{ $item_item->id }}" class="icheck" data-checkbox="icheckbox_square-grey"> {{ $item_item->name }}
+                        {{ str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $level) }}<input type="checkbox" name="{{ $name }}" value="{{ $item_item->id }}" class="icheck" data-checkbox="icheckbox_square-grey"> {{ $item_item->menuTitle() }}
                     </label>
                     @if($has_child)
                         <div id="checkbox-item-{{ $item_item->id }}" class="collapse " style="margin-bottom: 8px">

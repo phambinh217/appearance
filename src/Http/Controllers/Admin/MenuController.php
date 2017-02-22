@@ -1,12 +1,12 @@
 <?php
 
-namespace Packages\Appearance\Http\Controllers\Admin;
+namespace Phambinh\Appearance\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use AdminController;
 use Validator;
-use Packages\Appearance\Menu;
-use Packages\Appearance\MenuItem;
+use Phambinh\Appearance\Menu;
+use Phambinh\Appearance\MenuItem;
 
 class MenuController extends AdminController
 {
@@ -112,14 +112,14 @@ class MenuController extends AdminController
         $objects = $type::whereIn('id', $request->input('object_id'))->get();
 
         foreach ($objects as $object) {
-            $object->addToMenu($id);
+            $object->addToMenu($menu->id);
         }
 
         if ($request->ajax()) {
             return response()->json([
                 'title' => 'Thành công',
                 'message' => 'Đã thêm vào menu',
-                'redirect' => route('admin.appearance.menu.edit', ['menu_id' => $id]),
+                'redirect' => route('admin.appearance.menu.edit', ['menu_id' => $menu->id]),
             ]);
         }
 
@@ -139,7 +139,7 @@ class MenuController extends AdminController
             return response()->json([
                 'title' => 'Thành công',
                 'message' => 'Đã thêm vào menu',
-                'redirect' => route('admin.appearance.menu.edit', ['menu_id' => $id]),
+                'redirect' => route('admin.appearance.menu.edit', ['menu_id' => $menu->id]),
             ]);
         }
 
@@ -159,7 +159,7 @@ class MenuController extends AdminController
         return redirect()->back();
     }
 
-    public function menuItemUpdate(Request $request, MenuItem $id)
+    public function menuItemUpdate(Request $request, MenuItem $menu_item)
     {
         $this->validate($request, [
             'menu_item.title' => 'required',
