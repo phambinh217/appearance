@@ -69,7 +69,6 @@ class ModuleServiceProvider extends ServiceProvider
     public function register()
     {
         \Module::registerFromJsonFile('appearance', __DIR__ .'/../../module.json');
-        $this->app->register(\Phambinh\Appearance\Providers\RoutingServiceProvider::class);
         $this->registerAdminMenu();
         \Menu::registerLocation([
             'id' => 'master-menu',
