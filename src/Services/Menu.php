@@ -1,6 +1,6 @@
 <?php
 
-namespace Packages\Appearance\Services;
+namespace Phambinh\Appearance\Services;
 
 use Illuminate\Support\Collection;
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace Packages\Appearance;
+namespace Phambinh\Appearance;
 
 use Illuminate\Database\Eloquent\Model;
-use Packages\Cms\Support\Traits\Model as PhambinhModel;
-use Packages\Cms\Support\Traits\Query;
+use Phambinh\Cms\Support\Traits\Model as PhambinhModel;
+use Phambinh\Cms\Support\Traits\Query;
 
 class MenuItem extends Model implements Query
 {
@@ -46,7 +46,7 @@ class MenuItem extends Model implements Query
 
     public function menu()
     {
-        return $this->belongTo('Packages\Appearance\Menu');
+        return $this->belongTo('Phambinh\Appearance\Menu');
     }
 
     public function scopeOfQuery($query, $args = [])

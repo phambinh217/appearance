@@ -7,7 +7,7 @@
  * @version: 1.0
  * @package: PhambinhCMS
  */
-namespace Packages\Appearance\Providers;
+namespace Phambinh\Appearance\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -69,7 +69,7 @@ class ModuleServiceProvider extends ServiceProvider
     public function register()
     {
         \Module::registerFromJsonFile('appearance', __DIR__ .'/../../module.json');
-        $this->app->register(\Packages\Appearance\Providers\RoutingServiceProvider::class);
+        $this->app->register(\Phambinh\Appearance\Providers\RoutingServiceProvider::class);
         $this->registerAdminMenu();
         \Menu::registerLocation([
             'id' => 'master-menu',
