@@ -75,7 +75,6 @@ class MenuController extends AdminController
 
     public function menuStore(Request $request)
     {
-    	$this->checkAuthorize('admin.appearance.menu.create');
         $this->validate($request, [
             'menu.name' => 'required',
             'menu.slug' => '',
