@@ -9,7 +9,7 @@
  * @package: PhambinhCMS
  */
 
-Route::group(['module' => 'appearance', 'namespace' => 'Phambinh\Appearance\Http\Controllers\Admin', 'middleware' => ['web'], 'prefix' => 'admin/appearance'], function () {
+Route::group(['module' => 'appearance', 'namespace' => 'Packages\Appearance\Http\Controllers\Admin', 'middleware' => ['web'], 'prefix' => 'admin/appearance'], function () {
     Route::get('menu', 'MenuController@index')->name('admin.appearance.menu.index')->middleware('can:admin.appearance.menu.index');
     Route::get('menu/{menu}', 'MenuController@menuEdit')->name('admin.appearance.menu.edit')->middleware('can:admin.appearance.menu.edit,menu');
     Route::put('menu/{menu}', 'MenuController@menuUpdate')->name('admin.appearance.menu.update')->middleware('can:admin.appearance.menu.edit,menu');

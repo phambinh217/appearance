@@ -1,10 +1,10 @@
 <?php
 
-namespace Phambinh\Appearance;
+namespace Packages\Appearance;
 
 use Illuminate\Database\Eloquent\Model;
-use Phambinh\Laravel\Database\Traits\Model as PhambinhModel;
-use Phambinh\Laravel\Database\Traits\Query;
+use Packages\Cms\Support\Traits\Model as PhambinhModel;
+use Packages\Cms\Support\Traits\Query;
 
 class Menu extends Model implements Query
 {
@@ -44,7 +44,7 @@ class Menu extends Model implements Query
 
     public function items()
     {
-        return $this->hasMany('Phambinh\Appearance\MenuItem');
+        return $this->hasMany('Packages\Appearance\MenuItem');
     }
 
     public function location($key = null)
