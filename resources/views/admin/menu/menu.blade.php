@@ -231,8 +231,8 @@
 @endsection
 
 @push('css')
-	<link href="{{ url('assets/admin/global/plugins/bootstrap-toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />
-	<link href="{{ url('assets/admin/global/plugins/jquery-nestable/jquery.nestable.css')}}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset_url('admin', 'global/plugins/bootstrap-toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset_url('admin', 'global/plugins/jquery-nestable/jquery.nestable.css')}}" rel="stylesheet" type="text/css" />
 @endpush
 
 @push('html_footer')
@@ -276,10 +276,10 @@
 @endpush
 
 @push('js_footer')
-	<script type="text/javascript" src="{{ url('assets/admin/global/plugins/jquery-form/jquery.form.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url('assets/admin/global/plugins/bootstrap-toastr/toastr.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url('assets/admin/global/plugins/jquery-nestable/jquery.nestable.js') }}"></script>
-	<script type="text/javascript" src="{{ url('assets/admin/global/plugins/vuejs/js/vue.js') }}"></script>
+	<script type="text/javascript" src="{{ asset_url('admin', 'global/plugins/jquery-form/jquery.form.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset_url('admin', 'global/plugins/bootstrap-toastr/toastr.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset_url('admin', 'global/plugins/jquery-nestable/jquery.nestable.js') }}"></script>
+	<script type="text/javascript" src="{{ asset_url('admin', 'global/plugins/vuejs/js/vue.min.js') }}"></script>
 	<script type="text/javascript">
 		$(function(){
 			$('#create-slug').click(function() {

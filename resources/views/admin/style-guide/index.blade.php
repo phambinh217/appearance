@@ -1330,9 +1330,9 @@
 @endpush
 
 @push('js_footer')
-	<script type="text/javascript" src="{{ url('assets/admin/global/plugins/jquery.pulsate.min.js') }}"></script>
-	<script type="text/javascript" src="{{ url('assets/admin/global/plugins/jquery-bootpag/jquery.bootpag.min.js') }}"></script>
-	<script type="text/javascript" src="{{ url('assets/admin/global/plugins/holder.js') }}"></script>
+	<script type="text/javascript" src="{{ asset_url('admin', 'global/plugins/jquery.pulsate.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset_url('admin', 'global/plugins/jquery-bootpag/jquery.bootpag.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset_url('admin', 'global/plugins/holder.js') }}"></script>
 	
-	<script type="text/javascript" src="{{ url('assets/admin/pages/scripts/ui-general.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset_url('admin', 'pages/scripts/ui-general.min.js') }}"></script>
 @endpush
