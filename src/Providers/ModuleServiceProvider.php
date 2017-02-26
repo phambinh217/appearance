@@ -26,25 +26,14 @@ class ModuleServiceProvider extends ServiceProvider
         // Load translations
         $this->loadTranslationsFrom(__DIR__ . '/../../resources/lang', 'Appearance');
 
-        // Load migrations
-        $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
-
-        // Merge configs
-        if (\File::exists(__DIR__ . '/../../config/config.php')) {
-            $this->mergeConfigFrom(__DIR__ . '/../../config/config.php', 'appearance');
-        }
-
         // Load helper
         if (\File::exists(__DIR__ . '/../../helper/helper.php')) {
             include __DIR__ . '/../../helper/helper.php';
         }
 
-        // Load route
-        if (!$this->app->routesAreCached()) {
-            if (\File::exists(__DIR__ . '/../../routes.php')) {
-                include __DIR__ . '/../../routes.php';
-            }
-        }
+        $this->publishes([
+            __DIR__.'/../../publishes/database/migrations' => database_path('migrations'),
+        ], 'migration');
 
         $this->registerPolicies();
     }
