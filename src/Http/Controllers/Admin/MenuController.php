@@ -39,7 +39,7 @@ class MenuController extends AdminController
 
         $menu->fill($request->input('menu'));
 
-        if (!empty($menu->slug)) {
+        if (empty($menu->slug)) {
             $menu->slug = str_slug($menu->name);
         }
         
@@ -83,7 +83,7 @@ class MenuController extends AdminController
         $menu = new Menu();
         $menu->fill($request->input('menu'));
         
-        if (!empty($menu->slug)) {
+        if (empty($menu->slug)) {
             $menu->slug = str_slug($menu->name);
         }
 
