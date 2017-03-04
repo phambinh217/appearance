@@ -23,9 +23,9 @@ trait NavigationMenu
     {
         $data = array_merge([
             'type' => __CLASS__,
-            'object_id' => method_exists($this, 'menuId') ? $this->menuId() : $this->id,
-            'url' => $this->menuUrl(),
-            'title' => method_exists($this, 'menuTitle') ? $this->menuTitle() : $this->title,
+            'object_id' => $this->id,
+            'url' => $this->menu_url,
+            'title' => $this->menu_title,
             'menu_id' => $menu_id,
         ], $params);
 
@@ -35,7 +35,7 @@ trait NavigationMenu
     public function syncMenuItem()
     {
         $menuItems = $this->menuItems()->update([
-            'url' => $this->menuUrl(),
+            'url' => $this->menu_url,
         ]);
     }
 
