@@ -1,14 +1,14 @@
 <?php
 
-namespace Phambinh\Appearance;
+namespace Packages\Appearance;
 
 use Illuminate\Database\Eloquent\Model;
-use Phambinh\Cms\Support\Traits\Model as PhambinhModel;
-use Phambinh\Cms\Support\Traits\Query;
+use Packages\Cms\Support\Traits\Filter;
+use Packages\Cms\Support\Traits\Hierarchical;
 
-class MenuItem extends Model implements Query
+class MenuItem extends Model
 {
-    use PhambinhModel;
+    use Filter, Hierarchical;
 
     protected $table = 'menu_items';
 
@@ -31,8 +31,19 @@ class MenuItem extends Model implements Query
      *
      * @var array
      */
-    protected static $requestFilter = [
-        
+    protected static $filterable = [
+        'id'            => 'integer',
+        'title'         => 'max:255',
+        'type'          => 'max:255',
+        'menu_id'       => 'integer',
+        'object_id'     => 'integer',
+        'url'           => 'max:255',
+
+        '_orderby'      => 'in:id,title,order,created_at,updated_at',
+        '_sort'         => 'in:asc,desc',
+        '_keyword'      => 'max:255',
+        '_limit'        => 'integer',
+        '_offset'       => 'integer',
     ];
 
     /**
@@ -40,28 +51,19 @@ class MenuItem extends Model implements Query
      *
      * @var array
      */
-    protected static $defaultOfQuery = [
-        'orderby'      =>  'id.desc',
+    protected static $defaultFilter = [
+        '_orderby'      => 'updated_at',
+        '_sort'         => 'desc',
     ];
 
     public function menu()
     {
-        return $this->belongTo('Phambinh\Appearance\Menu');
+        return $this->belongTo('Packages\Appearance\Menu');
     }
 
-    public function scopeOfQuery($query, $args = [])
+    public function scopeApplyFilter($query, $args = [])
     {
-        $args = $this->defaultParams($args);
-        $query->baseQuery($args);
-    }
-
-    public function hasChild()
-    {
-        return $this->ofQuery(['parent_id'], $this->id)->count() != 0;
-    }
-
-    public function scopeOfParentAble($query)
-    {
-        $query->where('id', '!=', $this->id)->where('parent_id', '!=', $this->id);
+        $args = array_merge(self::$defaultFilter, $args);
+        $query->baseFilter($args);
     }
 }

@@ -1,14 +1,14 @@
 <?php
 
-namespace Phambinh\Appearance;
+namespace Packages\Appearance;
 
 use Illuminate\Database\Eloquent\Model;
-use Phambinh\Cms\Support\Traits\Model as PhambinhModel;
-use Phambinh\Cms\Support\Traits\Query;
+use Packages\Cms\Support\Traits\Filter;
+use Packages\Cms\Support\Traits\Slug;
 
-class Menu extends Model implements Query
+class Menu extends Model
 {
-    use PhambinhModel;
+    use Slug;
 
     protected $table = 'menus';
 
@@ -25,12 +25,17 @@ class Menu extends Model implements Query
      *
      * @var array
      */
-    protected static $requestFilter = [
-        'id' => 'integer',
-        'name' => '',
-        'slug' => '',
-        'location' => '',
-        'orderby' => '',
+    protected static $filterable = [
+        'id'        => 'integer',
+        'name'      => 'max:255',
+        'slug'      => 'max:255',
+        'location'  => 'max:255',
+
+        '_orderby'      => 'in:id,name,created_at,updated_at',
+        '_sort'         => 'in:asc,desc',
+        '_keyword'      => 'max:255',
+        '_limit'        => 'integer',
+        '_offset'       => 'integer',
     ];
 
     /**
@@ -38,13 +43,14 @@ class Menu extends Model implements Query
      *
      * @var array
      */
-    protected static $defaultOfQuery = [
-        'orderby'      =>  'id.desc',
+    protected static $defaultFilter = [
+        '_orderby'      => 'updated_at',
+        '_sort'         => 'desc',
     ];
 
     public function items()
     {
-        return $this->hasMany('Phambinh\Appearance\MenuItem');
+        return $this->hasMany('Packages\Appearance\MenuItem');
     }
 
     public function location($key = null)
@@ -57,10 +63,10 @@ class Menu extends Model implements Query
         return $location;
     }
 
-    public function scopeOfQuery($query, $args = [])
+    public function scopeApplyFilter($query, $args = [])
     {
-        $args = $this->defaultParams($args);
-        $query->baseQuery($args);
+        $args = array_merge(self::$defaultFilter, $args);
+        $query->baseFilter($args);
     }
 
     public function scopeUpdateStruct($query, $menu_items, $parent_id = '0', $order = '0')

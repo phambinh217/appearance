@@ -1,13 +1,6 @@
 <?php
-/**
- * ModuleAlias: appearance
- * ModuleName: appearance
- * Description: This is the first file run of module. You can assign bootstrap or register module services
- * @author: noname
- * @version: 1.0
- * @package: PhambinhCMS
- */
-namespace Phambinh\Appearance\Providers;
+
+namespace Packages\Appearance\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -32,6 +25,10 @@ class ModuleServiceProvider extends ServiceProvider
         }
 
         $this->publishes([
+            __DIR__.'/../../publishes/resources' => resource_path(),
+        ], 'resource');
+
+        $this->publishes([
             __DIR__.'/../../publishes/database/migrations' => database_path('migrations'),
         ], 'migration');
 
@@ -40,10 +37,10 @@ class ModuleServiceProvider extends ServiceProvider
 
     public function registerPolicies()
     {
-        \AccessControl::define('Giao diện - Xem danh sách menu', 'admin.appearance.menu.index');
-        \AccessControl::define('Giao diện - Thêm menu mới', 'admin.appearance.menu.create');
-        \AccessControl::define('Giao diện - Chỉnh sửa menu', 'admin.appearance.menu.edit');
-        \AccessControl::define('Giao diện - Xóa menu', 'admin.appearance.menu.destroy');
+        \AccessControl::define(trans('menu.appearance').' - '.trans('menu.list-menu'), 'admin.appearance.menu.index');
+        \AccessControl::define(trans('menu.appearance').' - '.trans('menu.add-new-menu'), 'admin.appearance.menu.create');
+        \AccessControl::define(trans('menu.appearance').' - '.trans('menu.edit-menu'), 'admin.appearance.menu.edit');
+        \AccessControl::define(trans('menu.appearance').' - '.trans('menu.destroy-menu'), 'admin.appearance.menu.destroy');
     }
 
     /**
@@ -66,7 +63,7 @@ class ModuleServiceProvider extends ServiceProvider
         add_action('admin.init', function () {
             if (\Auth::user()->can('admin.appearance.menu.index')) {
                 \AdminMenu::register('setting.appearance', [
-                    'label'     => 'Cài đặt giao diện',
+                    'label'     => trans('menu.setting-appearance'),
                     'parent'    =>  'setting',
                     'url'       =>  route('admin.appearance.menu.index'),
                     'icon'      =>  'icon-grid',
@@ -74,7 +71,7 @@ class ModuleServiceProvider extends ServiceProvider
             }
             if (\Auth::user()->can('admin.appearance.menu.index')) {
                 \AdminMenu::register('setting.appearance.menu', [
-                    'label'     => 'Menu',
+                    'label'     => trans('menu.menu'),
                     'parent'    =>  'setting.appearance',
                     'url'       =>  route('admin.appearance.menu.index'),
                     'icon'      =>  'icon-list',
@@ -82,7 +79,7 @@ class ModuleServiceProvider extends ServiceProvider
             }
             if (\Auth::user()->can('admin')) {
                 \AdminMenu::register('setting.check-version', [
-                    'label'     => 'Style guide',
+                    'label'     => trans('styleguide.style-guide'),
                     'parent'    =>  'setting',
                     'url'       =>  route('admin.appearance.style-guide.index'),
                     'icon'      =>  'icon-drop',

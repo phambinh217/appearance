@@ -1,14 +1,14 @@
 @extends('Cms::layouts.default',[
 	'active_admin_menu' 	=> ['setting', 'setting.appearance', 'setting.appearance.menu'],
 	'breadcrumbs' 			=> [
-		'title'	=> ['Cài đặt', 'Menu', 'Chỉnh sửa'],
+		'title'	=> [trans('setting.setting'), trans('menu.menu'), trans('cms.edit')],
 		'url'	=> [
 			route('admin.setting.general', route('admin.appearance.menu.index'))
 		],
 	],
 ])
 
-@section('page_title', 'Chỉnh sửa menu')
+@section('page_title', trans('menu.edit-menu'))
 @section('page_sub_title', $menu->name)
 
 @section('content')
@@ -27,10 +27,13 @@
 						</div>
 					</div>
 					<div class="portlet-body" style="display: none;">
-						<form class="form-horizontal ajax-form" method="POST" action="{{ route('admin.appearance.menu.add', ['id' => $menu_id]) }}">
+						{!! Form::ajax([
+							'url' => route('admin.appearance.menu.add', ['id' => $menu_id]),
+							'method' => 'POST',
+							'class' => 'form-horizontal',
+						]) !!}
 							<div class="form-body"  style="margin: 15px 0;">
 								<div class="scroller" style="height:200px;" data-rail-visible="1" data-rail-color="yellow" data-handle-color="#a1b2bd">
-									{{ csrf_field() }}
 									<input type="hidden" name="type" value="{{ $menu_item['type'] }}">
 									@include('Appearance::admin.components.form-checkbox-menu-item', [
 										'items' => $menu_item['type']::get(),
@@ -40,17 +43,17 @@
 							</div>
 							<div class="form-actions util-btn-margin-bottom-5">
 								<button class="btn btn-primary full-width-xs">
-									<i class="fa fa-plus"></i> Thêm
+									<i class="fa fa-plus"></i> @lang('cms.add')
 								</button>
 							</div>
-						</form>
+						{!! Form::close() !!}
 					</div>
 				</div>
 				@endforeach
 				<div class="portlet light bordered">
 					<div class="portlet-title">
 						<div class="caption">
-							<span class="caption-subject bold">Liên kết tùy chỉnh</span>
+							<span class="caption-subject bold">@lang('custom-link')</span>
 						</div>
 						<div class="tools">
 							<a href="javascript:;" class="collapse"> </a>
@@ -58,25 +61,27 @@
 						</div>
 					</div>
 					<div class="portlet-body">
-						<form class="ajax-form" method="POST"  action="{{ route('admin.appearance.menu.add-default', ['id' => $menu_id]) }}">
+						{!! Form::ajax([
+							'url' => route('admin.appearance.menu.add-default', ['id' => $menu_id]),
+							'method' => 'POST',
+						]) !!}
 							<div class="form-body">
-								{{ csrf_field() }}
 								<input type="hidden" name="type" value="custom-link">
 								<div class="form-group">
-									<label class="control-label">Tên menu</label>
+									<label class="control-label">@lang('menu.name')</label>
 									<input name="menu_item[title]" type="text" class="form-control" />
 								</div>
 								<div class="form-group">
-									<label class="control-label">Url</label>
+									<label class="control-label">@lang('menu.url')</label>
 									<input name="menu_item[url]" type="text" class="form-control" />
 								</div>
 							</div>
 							<div class="form-actions util-btn-margin-bottom-5">
 								<button class="btn btn-primary full-width-xs">
-									<i class="fa fa-plus"></i> Thêm
+									<i class="fa fa-plus"></i> @lang('cms.add')
 								</button>
 							</div>
-						</form>
+						{!! Form::close() !!}
 					</div>
 				</div>
 			</div>
@@ -87,10 +92,10 @@
 					<div class="tab-default">
 						<ul class="nav nav-tabs">
 							<li class="active">
-								<a href="#menu-struct" data-toggle="tab" aria-expanded="true"> Cấu trúc menu </a>
+								<a href="#menu-struct" data-toggle="tab" aria-expanded="true"> @lang('menu.struct') </a>
 							</li>
 							<li class="">
-								<a href="#menu-info" data-toggle="tab" aria-expanded="false"> Menu </a>
+								<a href="#menu-info" data-toggle="tab" aria-expanded="false"> @lang('menu.menu') </a>
 							</li>
 						</ul>
 					</div>
@@ -106,24 +111,28 @@
 								</ol>
 							</div>
 							<div class="form-actions util-btn-margin-bottom-5" style="padding: 15px">
-								<form class="ajax-form form-horizontal form-bordered" action="{{ route('admin.appearance.menu.update.struct', ['id' => $menu_id]) }}" method="POST">
-									{{ method_field('PUT') }}
-									{{ csrf_field() }}
+								{!! Form::ajax([
+									'url' => route('admin.appearance.menu.update.struct', ['id' => $menu_id]),
+									'method' => 'PUT',
+									'class' => 'form-horizontal form-bordered',
+								]) !!}									
 									<input type="hidden" name="menu[struct]" value="" />
 									<button class="btn btn-primary full-width-xs">
-										<i class="fa fa-save"></i> Lưu cấu trúc
+										<i class="fa fa-save"></i> @lang('cms.save')
 									</button>
-								</form>
+								{!! Form::close() !!}
 							</div>
 						</div>
 						<div class="tab-pane" id="menu-info">
-							<form class="ajax-form form-horizontal form-bordered" action="{{ route('admin.appearance.menu.update', ['id' => $menu_id]) }}" method="POST">
-								{{ method_field('PUT') }}
-								{{ csrf_field() }}
+							{!! Form::ajax([
+								'url' => route('admin.appearance.menu.update', ['id' => $menu_id]),
+								'method' => 'PUT',
+								'class' => 'form-horizontal form-bordered',
+							]) !!}
 								<div class="form-body">
 									<div class="form-group">
 										<label class="control-label col-sm-3">
-											Tên menu
+											@lang('menu.name')
 										</label>
 										<div class="col-sm-9">
 											<input type="text" name="menu[name]" class="form-control" value="{{ $menu->name }}" />
@@ -131,35 +140,33 @@
 									</div>
 									<div class="form-group">
 										<label class="control-label col-sm-3">
-											Slug
+											@lang('menu.slug')
 										</label>
 										<div class="col-sm-9">
 											<input type="text" name="menu[slug]" class="form-control" value="{{ $menu->slug }}" />
 											<label class="checkbox-inline">
 												<input type="checkbox" value="true" checked="" id="create-slug">
-												Từ tên menu
+												@lang('menu.from-menu-name')
 											</label>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="control-label col-sm-3">
-											Vị trí
+											@lang('menu.location')
 										</label>
 										<div class="col-sm-9">
-											@include('Appearance::admin.components.form-select-location', [
-												'name' => 'menu[location]',
-												'locations' => \Menu::locationAll(),
-												'selected' => $menu->location,
-											])
+											{!! Form::select('menu[location]', \Menu::location()->mapWithKeys(function ($item) {
+												return [$item['id'] => $item['name']];
+											})->all(), $menu->location, ['class' => 'form-control', 'placeholder' => '']) !!}
 										</div>
 									</div>
 								</div>
 								<div class="form-actions util-btn-margin-bottom-5">
 									<button class="btn btn-primary full-width-xs">
-										<i class="fa fa-save"></i> Lưu
+										<i class="fa fa-save"></i> @lang('cms.save-change')
 									</button>
 								</div>
-							</form>
+							{!! Form::close() !!}
 						</div>
 					</div>
 				</div>
@@ -168,16 +175,9 @@
 	</div>
 @endsection
 
-@push('css')
-	<link href="{{ asset_url('admin', 'global/plugins/bootstrap-toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />
-	<link href="{{ asset_url('admin', 'global/plugins/jquery-nestable/jquery.nestable.css')}}" rel="stylesheet" type="text/css" />
-@endpush
-
+@addCss('css', asset_url('admin', 'global/plugins/jquery-nestable/jquery.nestable.css'))
+@addJs('js_footer', asset_url('admin', 'global/plugins/jquery-nestable/jquery.nestable.js'))
 @push('js_footer')
-	<script type="text/javascript" src="{{ asset_url('admin', 'global/plugins/jquery-form/jquery.form.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset_url('admin', 'global/plugins/bootstrap-toastr/toastr.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset_url('admin', 'global/plugins/jquery-nestable/jquery.nestable.js') }}"></script>
-    <script type="text/javascript" src="{{ asset_url('admin', 'global/plugins/jquery-nestable/jquery.nestable.js') }}"></script>
     <script type="text/javascript">
     	$(function(){
     		$('#menu-structor').nestable().on('change', function(e){

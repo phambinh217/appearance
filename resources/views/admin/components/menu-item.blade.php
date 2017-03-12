@@ -13,27 +13,29 @@
 				</span>
 			</div>
 			<div id="menu-item-{{ $item->id }}" class="collapse">
-				<form class="form-horizontal ajax-form" action="{{ route('admin.appearance.menu-item.update', ['id' => $item->id]) }}" method="post">
-					{{ csrf_field() }}
-					{{ method_field('PUT') }}
+				{!! Form::ajax([
+					'url' => route('admin.appearance.menu-item.update', ['id' => $item->id]),
+					'method' => 'PUT',
+					'class' => 'form-horizontal',
+				]) !!}
 					<div class="form-group">
-						<label class="control-lalel col-sm-3">Tên menu</label>
+						<label class="control-lalel col-sm-3">@lang('menu.name')</label>
 						<div class="col-sm-9">
 							<input name="menu_item[title]" type="text" class="form-control input-sm" value="{{ $item->title }}" />
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-lalel col-sm-3">Url</label>
+						<label class="control-lalel col-sm-3">@lang('menu.url')</label>
 						<div class="col-sm-9">
 							<input name="menu_item[url]" type="text" class="form-control input-sm" value="{{ $item->url }}" />
 						</div>
 					</div>
 					<div class="form-actions util-btn-margin-bottom-5 text-right">
 						<button class="btn btn-primary btn-sm">
-							Lưu
+							@lang('cms.save')
 						</button>
 					</div>
-				</form>
+				{!! Form::close() !!}
 			</div>
 			@if($item->hasChild())
 				<ol class="dd-list">

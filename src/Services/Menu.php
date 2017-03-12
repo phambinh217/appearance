@@ -1,6 +1,6 @@
 <?php
 
-namespace Phambinh\Appearance\Services;
+namespace Packages\Appearance\Services;
 
 use Illuminate\Support\Collection;
 
@@ -27,6 +27,16 @@ class Menu
     public function registerLocation($data)
     {
         $this->locations->push($data);
+    }
+
+    public function location()
+    {
+        return $this->locations;
+    }
+
+    public function menu()
+    {
+        return $this->menus;
     }
 
     /**

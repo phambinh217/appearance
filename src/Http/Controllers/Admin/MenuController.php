@@ -1,22 +1,21 @@
 <?php
 
-namespace Phambinh\Appearance\Http\Controllers\Admin;
+namespace Packages\Appearance\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use AdminController;
 use Validator;
-use Phambinh\Appearance\Menu;
-use Phambinh\Appearance\MenuItem;
+use Packages\Appearance\Menu;
+use Packages\Appearance\MenuItem;
 
 class MenuController extends AdminController
 {
     public function index()
     {
-        \Metatag::set('title', 'Danh sách menu');
-
         $menus = Menu::get();
         $this->data['menus'] = $menus;
 
+        \Metatag::set('title', trans('menu.list-menu'));
         return view('Appearance::admin.menu.index', $this->data);
     }
 
@@ -25,7 +24,7 @@ class MenuController extends AdminController
         $this->data['menu'] = $menu;
         $this->data['menu_id'] = $menu->id;
         
-        \Metatag::set('title', 'Chỉnh sửa menu');
+        \Metatag::set('title', trans('menu.edit-menu'));
         return view('Appearance::admin.menu.edit', $this->data);
     }
 
@@ -47,8 +46,8 @@ class MenuController extends AdminController
 
         if ($request->ajax()) {
             return response()->json([
-                'title' => 'Thành công',
-                'message' => 'Đã lưu menu',
+                'title' => trans('cms.success'),
+                'message' => trans('menu.update-menu-success'),
             ]);
         }
 
@@ -65,8 +64,8 @@ class MenuController extends AdminController
 
         if ($request->ajax()) {
             return response()->json([
-                'title' => 'Thành công',
-                'message' => 'Đã lưu cấu trúc mới',
+                'title' => trans('cms.success'),
+                'message' => trans('menu.update-menu-struct'),
             ]);
         }
 
@@ -91,8 +90,8 @@ class MenuController extends AdminController
 
         if ($request->ajax()) {
             return response()->json([
-                'title' => 'Thành công',
-                'message' => 'Đã thêm menu mới',
+                'title' => trans('cms.success'),
+                'message' => trans('menu.create-success-menu'),
                 'redirect' => route('admin.appearance.menu.index', ['menu_id' => $menu->id]),
             ]);
         }
@@ -116,8 +115,8 @@ class MenuController extends AdminController
 
         if ($request->ajax()) {
             return response()->json([
-                'title' => 'Thành công',
-                'message' => 'Đã thêm vào menu',
+                'title' => trans('cms.success'),
+                'message' => trans('menu.add-menu-success'),
                 'redirect' => route('admin.appearance.menu.edit', ['menu_id' => $menu->id]),
             ]);
         }
@@ -136,8 +135,8 @@ class MenuController extends AdminController
 
         if ($request->ajax()) {
             return response()->json([
-                'title' => 'Thành công',
-                'message' => 'Đã thêm vào menu',
+                'title' => trans('cms.success'),
+                'message' => trans('menu.add-menu-success'),
                 'redirect' => route('admin.appearance.menu.edit', ['menu_id' => $menu->id]),
             ]);
         }
@@ -151,8 +150,8 @@ class MenuController extends AdminController
         $menu->delete();
 
         return response()->json([
-            'title' => 'Thành công',
-            'message' => 'Đã xóa menu',
+            'title' => trans('cms.success'),
+            'message' => trans('menu.destroy-menu-success'),
         ]);
 
         return redirect()->back();
@@ -169,8 +168,8 @@ class MenuController extends AdminController
 
         if ($request->ajax()) {
             return response()->json([
-                'title' => 'Thành công',
-                'message' => 'Đã lưu menu',
+                'title' => trans('cms.success'),
+                'message' => trans('menu.update-success-menu'),
             ]);
         }
 
@@ -184,8 +183,8 @@ class MenuController extends AdminController
 
         if ($request->ajax()) {
             return response()->json([
-                'title' => 'Thành công',
-                'message' => 'Đã xóa menu',
+                'title' => trans('cms.success'),
+                'message' => trans('menu.destroy-menu-success'),
                 'redirect' => route('admin.appearance.menu.edit', ['id' => $menu_item->menu_id])
             ]);
         }

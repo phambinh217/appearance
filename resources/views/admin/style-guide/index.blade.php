@@ -1,7 +1,7 @@
 @extends('Cms::layouts.default',[
 	'active_admin_menu' 	=> ['setting', 'setting.style-guide'],
 	'breadcrumbs' 			=> [
-		'title'	=> ['Cài đặt', 'Style guide'],
+		'title'	=> [trans('setting.setting'), trans('styleguide.style-guide')],
 		'url'	=> [
 			route('admin.setting.general')
 		],
