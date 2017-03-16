@@ -1,12 +1,12 @@
 <?php
 
-namespace Packages\Appearance\Http\Controllers\Admin;
+namespace Phambinh\Appearance\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use AdminController;
 use Validator;
-use Packages\Appearance\Menu;
-use Packages\Appearance\MenuItem;
+use Phambinh\Appearance\Menu;
+use Phambinh\Appearance\MenuItem;
 
 class MenuController extends AdminController
 {

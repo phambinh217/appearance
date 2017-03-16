@@ -1,10 +1,10 @@
 <?php
 
-namespace Packages\Appearance;
+namespace Phambinh\Appearance;
 
 use Illuminate\Database\Eloquent\Model;
-use Packages\Cms\Support\Traits\Filter;
-use Packages\Cms\Support\Traits\Slug;
+use Phambinh\Cms\Support\Traits\Filter;
+use Phambinh\Cms\Support\Traits\Slug;
 
 class Menu extends Model
 {
@@ -50,7 +50,7 @@ class Menu extends Model
 
     public function items()
     {
-        return $this->hasMany('Packages\Appearance\MenuItem');
+        return $this->hasMany('Phambinh\Appearance\MenuItem');
     }
 
     public function location($key = null)

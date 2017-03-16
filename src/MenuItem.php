@@ -1,10 +1,10 @@
 <?php
 
-namespace Packages\Appearance;
+namespace Phambinh\Appearance;
 
 use Illuminate\Database\Eloquent\Model;
-use Packages\Cms\Support\Traits\Filter;
-use Packages\Cms\Support\Traits\Hierarchical;
+use Phambinh\Cms\Support\Traits\Filter;
+use Phambinh\Cms\Support\Traits\Hierarchical;
 
 class MenuItem extends Model
 {
@@ -58,7 +58,7 @@ class MenuItem extends Model
 
     public function menu()
     {
-        return $this->belongTo('Packages\Appearance\Menu');
+        return $this->belongTo('Phambinh\Appearance\Menu');
     }
 
     public function scopeApplyFilter($query, $args = [])

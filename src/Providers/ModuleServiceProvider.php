@@ -1,6 +1,6 @@
 <?php
 
-namespace Packages\Appearance\Providers;
+namespace Phambinh\Appearance\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -50,7 +50,7 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        \Module::registerFromJsonFile('appearance', __DIR__ .'/../../module.json');
+        \Module::registerFromComposerJson(__DIR__.'/../..');
         $this->registerAdminMenu();
         \Menu::registerLocation([
             'id' => 'master-menu',

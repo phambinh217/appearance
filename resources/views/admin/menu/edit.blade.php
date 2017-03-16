@@ -53,7 +53,7 @@
 				<div class="portlet light bordered">
 					<div class="portlet-title">
 						<div class="caption">
-							<span class="caption-subject bold">@lang('custom-link')</span>
+							<span class="caption-subject bold">@lang('menu.custom-link')</span>
 						</div>
 						<div class="tools">
 							<a href="javascript:;" class="collapse"> </a>
